@@ -1,0 +1,12 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =5
+let g:netrw_dirhist_5='/home/dminh/42/so_long/textures'
+let g:netrw_dirhist_4='/home/dminh/42/so_long'
+let g:netrw_dirhist_3='/home/dminh/42/so_long/maps'
+let g:netrw_dirhist_2='/home/dminh/42/push_swap'
+let g:netrw_dirhist_1='/home/dminh/42/push_swap/libft/srcs/libft'
+let g:netrw_dirhist_0='/home/dminh/42/minitalk'
+let g:netrw_dirhist_9='/home/dminh/42/minitalk/libft/srcs/libft'
+let g:netrw_dirhist_8='/home/dminh/42/minitalk/libft/include'
+let g:netrw_dirhist_7='/home/dminh/42/ft_printf'
+let g:netrw_dirhist_6='/home/dminh/42/minitalk/libft'
