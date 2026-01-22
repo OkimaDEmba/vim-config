@@ -60,7 +60,7 @@ set splitbelow
 set splitright
 
 " Highlight when overflowing columns
-match ErrorMsg '\%>80v.\+'
+" match ErrorMsg '\%>80v.\+'
 
 " Set my login and mail in the 42 header
 let g:user42 = 'dminh'
@@ -91,6 +91,10 @@ set completeopt-=preview
 " Saves automatically when leaving InsertMode
 autocmd InsertLeave * write
 
-" Map <F8> go to the right buffer, execute norminette and go back to the left
+" Map <F8> to go to the right buffer, execute norminette and go back to the left
 " buffer
-map <F8> <C-w>lggdG:read !norminette *.c<CR><CR>gg<C-w>h
+map <F8> <C-w>lggdG:read !norminette <CR><CR>gg<C-w>h
+
+
+" Map <F9> to execute the binary
+map <F9> :!bin/philo<CR>
