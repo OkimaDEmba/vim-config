@@ -94,7 +94,7 @@ set showcmd
 noremap <leader>p :silent! :make! \| :redraw!<CR>
 
 " Enabling omnicompletion
-filetype plugin on
+filetype plugin indent on
 set omnifunc=syntaxcomplete#Complete
 set completeopt-=preview
 
@@ -103,15 +103,12 @@ autocmd InsertLeave * write
 
 " Map <F8> to go to the right buffer, execute norminette and go back to the left
 " buffer
-<<<<<<< HEAD
 map <F8> <C-w>lggdG:read !norminette <CR><CR>gg<C-w>h
 
 
 " Map <F9> to execute the binary
 map <F9> :!bin/philo<CR>
-=======
-map <F8> <C-w>lggdG:read !norminette *.c<CR><CR>gg<C-w>h
+map <F8> <C-w>lggdG:read !norminette <CR><CR>gg<C-w>h
 
 " Map \c to execute ctags -R
 map <leader>c :!ctags -R<CR><CR>
->>>>>>> f1cff6e (Adding the a new path to .vimrc and a the highlight for matching parenthesis color to purple)
