@@ -2,6 +2,9 @@
 " search to **
 set path+=,**
 
+" Allow completion to check though subdirectories
+set complete+=k**/*
+
 " Show relative line numbers and current line number
 set number
 set relativenumber
