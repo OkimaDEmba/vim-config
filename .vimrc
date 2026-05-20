@@ -1,6 +1,53 @@
+" 1. Start the plugin manager
+call plug#begin('~/.vim/plugged')
+
+" 2. List your plugins here
+Plug 'madox2/vim-ai'
+
+" 3. End the plugin manager
+call plug#end()
+" 1. FIX THE PYTHON SOURCE: Satisfy the 'load_api_key' check with a dummy variable
+let $OPENAI_API_KEY = "ollama"
+
+" 2. FIX THE VIMSCRIPT SOURCE: Provide the FULL dictionary so no keys are missing
+let g:vim_ai_chat = {
+\  "options": {
+\    "model": "codestral",
+\    "endpoint_url": "http://localhost:11434/v1/chat/completions",
+\    "max_tokens": 4096,
+\    "temperature": 0.2,
+\  },
+\  "ui": {
+\    "open_chat_command": "preset_below",
+\    "scratch_buffer_keep_open": 0,
+\    "paste_mode": 1,
+\  },
+\}
+
+let g:vim_ai_edit = {
+\  "options": {
+\    "model": "qwen2.5-coder",
+\    "endpoint_url": "http://localhost:11434/v1/chat/completions",
+\  },
+\  "ui": {
+\    "paste_mode": 1,
+\  },
+\}
+" 1. Global settings - Point to /dev/null to bypass the key check
+let g:vim_ai_token_file_path = "/dev/null"
+let g:vim_ai_debug = 1
+
+" 4. Simple Mappings
+" Start a chat (Visual selection included automatically!)
+vnoremap <leader>ac :AIChat<CR>
+nnoremap <leader>ac :AIChat<CR>
+
+" Edit/Refactor selected code
+vnoremap <leader>ae :AI<CR>
+
 " Allow to search for files through the whole storage by setting the path to
 " search to **
-set path+=,**
+set path+=,**,$PWD/**
 
 " Allow completion to check though subdirectories
 set complete+=k**/*
@@ -76,6 +123,7 @@ let g:mail42 = 'dminh@student.42.fr'
 " Enabling an autocompletion feature
 set wildmenu
 set wildmode=longest:full,full
+set wildoptions+=fuzzy
 
 " Setting the folded color to dark blue
 hi Folded ctermbg=008
@@ -100,9 +148,11 @@ noremap <leader>p :silent! :make! \| :redraw!<CR>
 filetype plugin indent on
 set omnifunc=syntaxcomplete#Complete
 set completeopt-=preview
+set tags=./tags,./tags;
+
 
 " Saves automatically when leaving InsertMode
-autocmd InsertLeave * write
+autocmd InsertLeave * if &buftype == '' && bufname('%') !~ 'Ollama' | write | endif
 
 " Map <F8> to go to the right buffer, execute norminette and go back to the left
 " buffer
@@ -115,3 +165,16 @@ map <F8> <C-w>lggdG:read !norminette <CR><CR>gg<C-w>h
 
 " Map \c to execute ctags -R
 map <leader>c :!ctags -R<CR><CR>
+" Create a custom completion function
+function! FindFuzzyComplete(ArgLead, CmdLine, CursorPos)
+    " Search the path for anything containing the typed string
+    let l:pattern = '*' . a:ArgLead . '*'
+    let l:files = globpath(&path, l:pattern, 0, 1)
+
+    " Clean up the output to just show filenames/relative paths
+    call map(l:files, 'fnamemodify(v:val, ":.")')
+    return l:files
+endfunction
+
+" Create the :F command that uses this completion
+command! -nargs=1 -complete=customlist,FindFuzzyComplete F find *<args>*
